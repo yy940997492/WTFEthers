@@ -1,0 +1,17 @@
+若遇到要调用有重载的方法，即方法名相同参数不同就不能直接 contract.method()，
+而要：contract["safeTransferFrom(address,address,uint256)"](addr1, addr2, 1);
+// web3
+message = await contract.methods.getMessage('nice').call();
+
+
+// ethers
+const abi = [
+  "function getMessage(string) public view returns (string)",
+  "function getMessage() public view returns (string)"
+]
+const contract = new ethers.Contract(address, abi, signer);
+
+// for ambiguous functions (two functions with the same
+// name), the signature must also be specified
+message = await contract['getMessage(string)']('nice');
+https://docs.ethers.io/v5/single-page/#/v5/migration/web3/-%23-migration-from-web3-js--contracts--overloaded-functions
